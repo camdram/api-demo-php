@@ -11,9 +11,9 @@ PHP
 
 Copy 'config.sample.php' to 'config.php' and enter the API key and API secret in the appropriate places.  
 
-  curl -sS https://getcomposer.org/installer | php
-  ./composer.phar install
-  ./runserver
+    curl -sS https://getcomposer.org/installer | php
+    ./composer.phar install
+    ./runserver
   
 Python
 =============
@@ -21,5 +21,5 @@ Python
   
 Copy 'config.sample.py' to 'config.py' and enter the API key and API secret in the appropriate places.
 
-  python install -r requirements.txt
-  python manage.py runserver
+    python install -r requirements.txt
+    python manage.py runserver
