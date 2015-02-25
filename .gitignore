@@ -1,0 +1,6 @@
+*~
+php/vendor
+php/config.php
+php/composer.phar
+python/config.py
+*.pyc
