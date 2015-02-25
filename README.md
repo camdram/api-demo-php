@@ -7,7 +7,7 @@ A host-specific API key is required for the dmeo, which can be created at https:
 
 PHP
 =============
-  cd php
+    cd php
 
 Copy 'config.sample.php' to 'config.php' and enter the API key and API secret in the appropriate places.  
 
@@ -17,7 +17,7 @@ Copy 'config.sample.php' to 'config.php' and enter the API key and API secret in
   
 Python
 =============
-  cd python
+    cd python
   
 Copy 'config.sample.py' to 'config.py' and enter the API key and API secret in the appropriate places.
 
