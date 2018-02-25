@@ -36,14 +36,22 @@ $app->get('/info', function(Request $request) use ($provider) {
             'code' => $request->query->get('code')
         ]);
         $userDetails = $provider->getResourceOwner($token);
-        $output = "<h1>Hello ".$userDetails->getName()."</h1>"
-            . "<h2>My Shows:</h2><ul>";
-
+        $output = "<h1>Hello ".$userDetails->getName()."</h1>";
+        
+        $output .= "<h2>My Shows:</h2><ul>";
         $shows = $provider->getAuthenticatedData('/auth/account/shows.json', $token);
         foreach ($shows as $show) {
             $output .= "<li>" . $show['name'] . "</li>";
         }
         $output .= "</ul>";
+        
+        $output .= "<h2>My Organisations:</h2><ul>";
+        $orgs = $provider->getAuthenticatedData('/auth/account/organisations.json', $token);
+        foreach ($orgs as $org) {
+            $output .= "<li>" . $org['name'] . "</li>";
+        }
+        $output .= "</ul>";
+        
         return $output;
     }
     catch (\Acts\Camdram\OAuth2\Provider\Exception\CamdramIdentityProviderException $e)
