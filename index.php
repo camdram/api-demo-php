@@ -1,13 +1,18 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
-require_once 'config.php';
 
 use Symfony\Component\HttpFoundation\Request;
-use Guzzle\Service\Client as GuzzleClient;
+use Symfony\Component\Dotenv\Dotenv;
+
+if (file_exists('config.env'))
+{
+    $dotenv = new Dotenv();
+    $dotenv->load(__DIR__.'/config.env');
+}
 
 $provider = new \Acts\Camdram\OAuth2\Provider\Camdram([
-    'clientId' => API_KEY,
-    'clientSecret' => API_SECRET,
+    'clientId' => getenv('API_KEY'),
+    'clientSecret' => getenv('API_SECRET'),
     'redirectUri' => 'http://'.$_SERVER['HTTP_HOST'].'/info'
 ]);
 

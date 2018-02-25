@@ -1,6 +1,7 @@
 {
 	"require" : {
 		"silex/silex" : "~2.0",
-		"camdram/oauth2-camdram" : "@dev"
+		"camdram/oauth2-camdram" : "@dev",
+		"symfony/dotenv": "^3.4"
 	}
 }
