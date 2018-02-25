@@ -1,6 +1,4 @@
 *~
-php/vendor
-php/config.php
-php/composer.phar
-python/config.py
-*.pyc
+vendor
+config.php
+composer.phar
