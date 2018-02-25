@@ -5,30 +5,13 @@ require_once 'config.php';
 use Symfony\Component\HttpFoundation\Request;
 use Guzzle\Service\Client as GuzzleClient;
 
-class CamdramProvider extends League\OAuth2\Client\Provider\AbstractProvider {
-    public function urlAuthorize() {
-        return CAMDRAM_URL.'/oauth/v2/auth';
-    }
-    public function urlAccessToken() {
-        return CAMDRAM_URL.'/oauth/v2/token';
-    }
-    public function urlUserDetails(\League\OAuth2\Client\Token\AccessToken $token) {
-        return CAMDRAM_URL.'/auth/account.json?access_token='.$token;
-    }
-    public function userDetails($response, \League\OAuth2\Client\Token\AccessToken $token) {
-        return $response;
-    }
-}
-
-$provider = new CamdramProvider([
+$provider = new \Acts\Camdram\OAuth2\Provider\Camdram([
     'clientId' => API_KEY,
     'clientSecret' => API_SECRET,
     'redirectUri' => 'http://'.$_SERVER['HTTP_HOST'].'/info'
 ]);
 
-
 $app = new Silex\Application();
-
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->get('/', function() {
@@ -36,28 +19,37 @@ $app->get('/', function() {
 });
 
 $app->get('/login', function() use ($app, $provider) {
-    $url = $provider->getAuthorizationUrl();
-    $app['session']->set('oauth2state', $provider->state);
+    $options = ['scope' => ['user_shows', 'user_orgs']];
+    $url = $provider->getAuthorizationUrl($options);
+    $app['session']->set('oauth2state', $provider->getState());
     return $app->redirect($url);
 });
 
 $app->get('/info', function(Request $request) use ($provider) {
-    $token = $provider->getAccessToken('authorization_code', [
-        'code' => $request->get('code')
-    ]);
-    $userDetails = $provider->getUserDetails($token);
-    $output = "<h1>Hello ".$userDetails->name."</h1>"
-          . "<h2>My Shows:</h2><ul>";
-
-    $httpClient = new GuzzleClient();
-    $request = $httpClient->get(CAMDRAM_URL.'/auth/account/shows.json?access_token='.$token)->send();
-    $response = $request->getBody();
-    $shows = json_decode($response, true);
-    foreach ($shows as $show) {
-        $output .= "<li>" . $show['name'] . "</li>";
+    if (!$request->query->has('code'))
+    {
+        return $this->redirect('/');
     }
-    $output .= "</ul>";
-    return $output;
+
+    try {
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $request->query->get('code')
+        ]);
+        $userDetails = $provider->getResourceOwner($token);
+        $output = "<h1>Hello ".$userDetails->getName()."</h1>"
+            . "<h2>My Shows:</h2><ul>";
+
+        $shows = $provider->getAuthenticatedData('/auth/account/shows.json', $token);
+        foreach ($shows as $show) {
+            $output .= "<li>" . $show['name'] . "</li>";
+        }
+        $output .= "</ul>";
+        return $output;
+    }
+    catch (\Acts\Camdram\OAuth2\Provider\Exception\CamdramIdentityProviderException $e)
+    {
+        return '<p>An authentication error has occurred</p>';
+    }
 });
 
 $app->run();

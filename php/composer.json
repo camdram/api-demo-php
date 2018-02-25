@@ -1,8 +1,6 @@
 {
-
-  "require": {
-    "silex/silex": "~1.2",
-
-     "league/oauth2-client" : "~0.8" 
-  }
+	"require" : {
+		"silex/silex" : "~2.0",
+		"camdram/oauth2-camdram" : "@dev"
+	}
 }
