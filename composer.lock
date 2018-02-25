@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/camdram/oauth2-camdram.git",
-                "reference": "3120352213b7c698d41e853bde5b058885bc341d"
+                "reference": "485065128853aac26628f36ff123b839325a2462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/camdram/oauth2-camdram/zipball/3120352213b7c698d41e853bde5b058885bc341d",
-                "reference": "3120352213b7c698d41e853bde5b058885bc341d",
+                "url": "https://api.github.com/repos/camdram/oauth2-camdram/zipball/485065128853aac26628f36ff123b839325a2462",
+                "reference": "485065128853aac26628f36ff123b839325a2462",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,7 @@
                 "MIT"
             ],
             "description": "Camdram OAuth 2.0 client library",
-            "time": "2018-02-25 03:56:16"
+            "time": "2018-02-25 15:17:39"
         },
         {
             "name": "guzzlehttp/guzzle",
