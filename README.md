@@ -7,8 +7,8 @@ A live demo can be viewed at http://camdram-api-demo.herokuapp.com
 
 A host-specific API key is required to run the demo, which can be created at https://www.camdram.net/api/apps
 
-Copy 'config.env.dist' to 'config.env' and enter the generated API key and API secret. Run the following commands to launch the demo: 
+Copy '.env' to '.env.local' and enter the generated API key and API secret. Run the following commands to launch the demo: 
 
     curl -sS https://getcomposer.org/installer | php
     ./composer.phar install
-    ./runserver
+    ./bin/console server:start
